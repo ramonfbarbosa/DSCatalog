@@ -44,7 +44,7 @@ public class ProductResourceTests {
 	@MockBean
 	private ProductService service;
 	
-	private long existindId;
+	private long existingId;
 	private long nonExistindId;
 	private long dependentId;
 	private ProductDTO productDTO;
@@ -52,7 +52,7 @@ public class ProductResourceTests {
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		existindId = 1L;
+		existingId = 1L;
 		nonExistindId = 2L;
 		dependentId = 3L;
 		
@@ -61,15 +61,15 @@ public class ProductResourceTests {
 		
 		when(service.findAllPaged(any())).thenReturn(page);
 		
-		when(service.findById(existindId)).thenReturn(productDTO);
+		when(service.findById(existingId)).thenReturn(productDTO);
 		when(service.findById(nonExistindId)).thenThrow(ResourceNotFoundException.class);
 		
 		when(service.insert(any())).thenReturn(productDTO);
 		
-		when(service.update(eq(existindId), any())).thenReturn(productDTO);
+		when(service.update(eq(existingId), any())).thenReturn(productDTO);
 		when(service.update(eq(nonExistindId), any())).thenThrow(ResourceNotFoundException.class);
 		
-		doNothing().when(service).delete(existindId);
+		doNothing().when(service).delete(existingId);
 		doThrow(ResourceNotFoundException.class).when(service).delete(nonExistindId);
 		doThrow(DatabaseException.class).when(service).delete(dependentId);
 	}
@@ -78,7 +78,7 @@ public class ProductResourceTests {
 	
 	@Test
 	public void deleteShouldReturnNoContentWhenIdExists() throws Exception {
-		ResultActions result = mockMvc.perform(delete("/products/{id}", existindId)
+		ResultActions result = mockMvc.perform(delete("/products/{id}", existingId)
 				.accept(MediaType.APPLICATION_JSON));
 		
 		result.andExpect(status().isNoContent());
@@ -96,7 +96,7 @@ public class ProductResourceTests {
 	@Test
 	public void insertShouldReturnProductDTOCreated() throws Exception {
 		String jsonBody = obj.writeValueAsString(productDTO);
-		ResultActions result = mockMvc.perform(post("/products", existindId)
+		ResultActions result = mockMvc.perform(post("/products", existingId)
 				.content(jsonBody)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON));
@@ -113,7 +113,7 @@ public class ProductResourceTests {
 		String jsonBody = obj.writeValueAsString(productDTO);
 		
 		ResultActions result = 
-				mockMvc.perform(put("/products/{id}", existindId)
+				mockMvc.perform(put("/products/{id}", existingId)
 						.content(jsonBody)
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON));
@@ -145,7 +145,7 @@ public class ProductResourceTests {
 	
 	@Test
 	public void findByIdShouldReturnProductWhenIdExists() throws Exception {
-		ResultActions result =  mockMvc.perform(get("/products/{id}", existindId)
+		ResultActions result =  mockMvc.perform(get("/products/{id}", existingId)
 				.accept(MediaType.APPLICATION_JSON));
 		result.andExpect(status().isOk());
 		result.andExpect(jsonPath("$.id").exists());

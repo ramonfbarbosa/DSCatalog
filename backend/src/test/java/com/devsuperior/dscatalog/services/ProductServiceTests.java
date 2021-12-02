@@ -32,7 +32,7 @@ import com.devsuperior.dscatalog.tests.Factory;
 
 @ExtendWith(SpringExtension.class)
 public class ProductServiceTests {
-
+	/*
 	@InjectMocks
 	private ProductService service;
 	
@@ -140,5 +140,5 @@ public class ProductServiceTests {
 		});
 		Mockito.verify(repository, Mockito.times(1)).deleteById(dependentId);
 	}
-	
+	*/
 }

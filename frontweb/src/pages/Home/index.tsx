@@ -16,9 +16,11 @@ const Home = () => {
             </p>
           </div>
           <div>
-            <Link to="/products">
-              <ButtonIcon />
-            </Link>
+            <div>
+              <Link to="/products">
+                <ButtonIcon />
+              </Link>
+            </div>
           </div>
         </div>
         <div className="home-image-container">
